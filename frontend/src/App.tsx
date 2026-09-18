@@ -9,23 +9,36 @@ type SensorData = {
 
 function App() {
   const [data, setData] = useState<SensorData | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchSensorData = () => {
-      fetch("http://127.0.0.1:8000/api/sensor/latest")
-        .then((response) => response.json())
-        .then((json) => setData(json));
+    const ws = new WebSocket("ws://127.0.0.1:8000/ws/sensor");
+
+    ws.onopen = () => {
+      console.log("WebSocket connected");
     };
 
-    // 最初に1回取得
-    fetchSensorData();
+    ws.onmessage = (event) => {
+      const json = JSON.parse(event.data);
 
-    // 5秒ごとに取得
-    const intervalId = setInterval(fetchSensorData, 5000);
+      console.log("Received:", json);
 
-    // コンポーネントが消えたらタイマーを解除
+      setData(json);
+      setLoading(false);
+    };
+
+    ws.onerror = () => {
+      console.log("WebSocket error");
+      setLoading(true);
+    };
+
+    ws.onclose = () => {
+      console.log("WebSocket disconnected");
+      setLoading(true);
+    };
+
     return () => {
-      clearInterval(intervalId);
+      ws.close();
     };
   }, []);
 
@@ -40,7 +53,7 @@ function App() {
       <div className="light" style={lightStyle}></div>
 
       <div className="light-text">
-        {data ? "光" : "Now Loading"}
+        {loading ? "Now Loading" : "光"}
       </div>
     </div>
   );
