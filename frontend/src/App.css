@@ -1,0 +1,55 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: black;
+}
+
+.app {
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: black;
+
+    position: relative;
+    overflow: hidden;
+}
+
+.light {
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+
+    border-radius: 50%;
+
+    background: #ffd83d;
+
+    box-shadow:
+        0 0 30px #ffd83d,
+        0 0 80px #ffd83d,
+        0 0 150px #ffd83d;
+
+    filter: blur(20px);
+
+    transition: opacity 1s ease;
+}
+
+.light-text {
+    position: relative;
+
+    color: white;
+
+    font-size: 32px;
+    font-weight: bold;
+
+    text-shadow:
+        0 0 10px black,
+        0 0 20px black;
+}

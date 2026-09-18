@@ -1,0 +1,15 @@
+# Python virtual environment
+backend/.venv/
+
+# Python cache
+backend/__pycache__/
+*.pyc
+
+# VS Code
+.vscode/
+
+# ESP-IDF build files
+build/
+
+# Environment / secrets
+.env
